@@ -1,4 +1,5 @@
 const Category = require('../models/category');
+const Item = require('../models/item');
 const asyncHandler = require('express-async-handler');
 
 const { body, validationResult } = require('express-validator');
@@ -68,7 +69,10 @@ exports.category_create_post = [
 ];
 
 exports.category_delete_get = asyncHandler(async (req, res, next) => {
-  const category = await Promise.all([Category.findById(req.params.id).exec()]);
+  const [category, itemsInCategory] = await Promise.all([
+    Category.findById(req.params.id).exec(),
+    Item.find({ category: req.params.id }),
+  ]);
 
   if (category === null) {
     // No results.
@@ -78,18 +82,24 @@ exports.category_delete_get = asyncHandler(async (req, res, next) => {
   res.render('category_delete', {
     title: 'Delete Category',
     category: category,
+    category_items: itemsInCategory,
   });
 });
 
 exports.category_delete_post = asyncHandler(async (req, res, next) => {
-  const category = await Promise.all([Category.findById(req.params.id).exec()]);
+  const [category, itemsInCategory] = await Promise.all([
+    Category.findById(req.params.id).exec(),
+    Item.find({ category: req.params.id }),
+  ]);
 
-  if (category === null) {
-    const err = new Error('Category not found');
-    err.status = 404;
-    return next(err);
+  if (itemsInCategory.length > 0) {
+    res.render('category_delete', {
+      title: 'Delete Category',
+      category: category,
+      category_items: itemsInCategory,
+    });
+    return;
   }
-
   await Category.findByIdAndRemove(req.body.id);
   res.redirect('/categories');
 });
