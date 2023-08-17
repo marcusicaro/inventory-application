@@ -4,6 +4,20 @@ const { body, validationResult } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const { title } = require('process');
 
+exports.index = asyncHandler(async (req, res, next) => {
+  // Get details of books, book instances, authors and genre counts (in parallel)
+  const [numItems, numCategories] = await Promise.all([
+    Item.countDocuments({}).exec(),
+    Category.countDocuments({}).exec(),
+  ]);
+
+  res.render('index', {
+    title: 'Local Library Home',
+    item_count: numItems,
+    category_count: numCategories,
+  });
+});
+
 exports.items_list = asyncHandler(async (req, res, next) => {
   const allItems = await Item.find({})
     .sort({ name: 1 })
@@ -63,7 +77,6 @@ exports.item_create_post = asyncHandler(async (req, res, next) => {
     description: req.body.description,
     category: req.body.category,
     price: req.body.price,
-    url: req.body.name.toLowerCase().replaceAll(' ', ''),
   });
 
   if (!errors.isEmpty()) {
@@ -163,7 +176,6 @@ exports.item_update_post = asyncHandler(async (req, res, next) => {
     description: req.body.description,
     category: req.body.category,
     price: req.body.price,
-    url: req.body.name.toLowerCase().replaceAll(' ', ''),
     _id: req.params.id,
   });
 

@@ -49,7 +49,6 @@ exports.category_create_post = [
     const category = new Category({
       name: req.body.name,
       description: req.body.description,
-      url: req.body.name.toLowerCase().replaceAll(' ', ''),
     });
 
     if (!errors.isEmpty()) {
