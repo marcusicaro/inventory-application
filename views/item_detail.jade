@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1 Title: #{item.name}
+
+  p #[strong Description:]
+    a(href=book.author.url) #{book.author.name}
+  p #[strong Price:] #{book.isbn}
+  p #[strong Category:]
+    each val, index in item.category
+      a(href=val.url) #{val.name}
+      if index < item.category.length - 1
+        |,
+
+  div(style='margin-left:20px;margin-top:20px')
+    
+    p
+      a(href=item.url+'/delete') Delete item
+ 
+  hr
+  p
+    a(href=item.url+'/delete') Delete item
+  p
+    a(href=item.url+'/update') Update item
