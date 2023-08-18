@@ -12,7 +12,10 @@ exports.categories_list = asyncHandler(async (req, res, next) => {
 });
 
 exports.category_detail = asyncHandler(async (req, res, next) => {
-  const category = await Category.findById(req.params.id).exec();
+  const [category, itemsInCategory] = await Promise.all([
+    Category.findById(req.params.id).exec(),
+    Item.find({ category: req.params.id }).exec(),
+  ]);
 
   if (category === null) {
     // No results.
@@ -23,6 +26,7 @@ exports.category_detail = asyncHandler(async (req, res, next) => {
 
   res.render('category_detail', {
     category: category,
+    category_items: itemsInCategory,
   });
 });
 
