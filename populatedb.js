@@ -37,7 +37,6 @@ async function categoryCreate(index, name, description, url) {
   const categorydetail = {
     name: name,
     description: description,
-    url: url,
   };
 
   const category = new Category(categorydetail);
@@ -61,7 +60,6 @@ async function itemCreate(index, name, description, category, price, url) {
     description: description,
     category: category,
     price: price,
-    url: url,
   });
   await item.save();
   items[index] = item;

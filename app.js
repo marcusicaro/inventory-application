@@ -1,3 +1,4 @@
+const debug = require('debug')('app');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -10,6 +11,17 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 const dev_db_url = `mongodb+srv://admin:${MongoDBKey}@cluster0.lnrds0m.mongodb.net/inventory_application?retryWrites=true&w=majority`;
+
+const mongoDB = process.env.MONGODB_URI || dev_db_url;
+
+const mongoose = require('mongoose');
+
+mongoose.set('strictQuery', false);
+
+main().catch((err) => debug(err));
+async function main() {
+  await mongoose.connect(mongoDB);
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
