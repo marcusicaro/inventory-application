@@ -51,7 +51,7 @@ exports.item_detail = asyncHandler(async (req, res, next) => {
 exports.item_create_get = asyncHandler(async (req, res, next) => {
   const allCategories = await Category.find({}).sort({ name: 1 }).exec();
 
-  res.render('category_form', {
+  res.render('item_form', {
     title: 'Create item',
     categories: allCategories,
   });
@@ -64,6 +64,8 @@ exports.item_create_post = asyncHandler(async (req, res, next) => {
       .notEmpty()
       .withMessage('Summary must not be empty.')
       .isFloat({ min: 1 })
+      .isNumeric()
+      .withMessage('Price must be a number')
       .withMessage('Price must be greater than 1.')
       .trim()
       .escape(),

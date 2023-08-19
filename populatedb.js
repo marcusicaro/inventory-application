@@ -30,9 +30,7 @@ async function main() {
   mongoose.connection.close();
 }
 
-// We pass the index to the ...Create functions so that, for example,
-// genre[0] will always be the Fantasy genre, regardless of the order
-// in which the elements of promise.all's argument complete.
+
 async function categoryCreate(index, name, description, url) {
   const categorydetail = {
     name: name,
@@ -73,7 +71,7 @@ async function createItems() {
       0,
       'Green soap',
       'Natural green soap',
-      categories[0],
+      [categories[0]],
       10,
       'greensoap'
     ),
@@ -81,7 +79,7 @@ async function createItems() {
       1,
       'Chamomile soap',
       'Natural chamomile soap',
-      categories[0],
+      [categories[0]],
       15,
       'chamomilesoap'
     ),
@@ -89,7 +87,7 @@ async function createItems() {
       2,
       'Chamomile shampoo',
       'Natural chamomile shampoo',
-      categories[1],
+      [categories[1]],
       12,
       'chamomileshampoo'
     ),
@@ -97,7 +95,7 @@ async function createItems() {
       3,
       'Aloe vera shampoo',
       'Natural aloe vera shampoo',
-      categories[1],
+      [categories[1]],
       13,
       'aloeverashampoo'
     ),
@@ -105,7 +103,7 @@ async function createItems() {
       4,
       'Aloe vera moisturizer',
       'Natural aloe vera moisturizer',
-      categories[2],
+      [categories[2]],
       20,
       'aloeveramoisturizer'
     ),

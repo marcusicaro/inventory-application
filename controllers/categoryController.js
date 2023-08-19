@@ -6,8 +6,8 @@ const { body, validationResult } = require('express-validator');
 
 exports.categories_list = asyncHandler(async (req, res, next) => {
   const allCategories = await Category.find().exec();
-  res.render('categories_list', {
-    categories: allCategories,
+  res.render('category_list', {
+    category_list: allCategories,
   });
 });
 
@@ -82,6 +82,7 @@ exports.category_delete_get = asyncHandler(async (req, res, next) => {
     res.redirect('/categories');
   }
 
+  
   res.render('category_delete', {
     title: 'Delete Category',
     category: category,
@@ -108,13 +109,13 @@ exports.category_delete_post = asyncHandler(async (req, res, next) => {
 });
 
 exports.category_update_get = asyncHandler(async (req, res, render) => {
-  const category = await Promise.all([Category.findById(req.params.id).exec()]);
+  const category = await Category.findById(req.params.id).exec();
   if (category === null) {
     const err = new Error('Category not found');
     err.status = 404;
     return next(err);
   }
-
+  console.log(category)
   res.render('category_form', {
     title: 'Update category',
     category: category,
@@ -148,5 +149,7 @@ exports.category_update_post = asyncHandler(async (req, res, next) => {
       category,
       {}
     );
+    res.redirect(newCategory.url);
+
   }
 });

@@ -3,9 +3,9 @@ extends layout
 block content
   h1 Title: #{item.name}
 
-  p #[strong Description:]
-    a(href=book.author.url) #{book.author.name}
-  p #[strong Price:] #{book.isbn}
+  p #[strong Description:] #{item.description}
+    a(href=item.category.url) #{item.category.name}
+  p #[strong Price:] #{item.price}
   p #[strong Category:]
     each val, index in item.category
       a(href=val.url) #{val.name}

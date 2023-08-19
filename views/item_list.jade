@@ -6,8 +6,9 @@ block content
   ul
     each item in item_list
       li
-        a(href=item.url) #{item.name}
-        |  (#{item.category.name})
+        a(href=item.url) #{item.name} 
+        each category in item.category
+          span.category-name (#{category.name})
 
     else
       li There are no items.
