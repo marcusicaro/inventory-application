@@ -26,7 +26,7 @@ exports.items_list = asyncHandler(async (req, res, next) => {
     .populate('category')
     .exec();
 
-  res.render('items_list', { title: 'Items List', items_list: allItems });
+  res.render('item_list', { title: 'Items List', item_list: allItems });
 });
 
 exports.item_detail = asyncHandler(async (req, res, next) => {
