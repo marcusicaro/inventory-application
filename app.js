@@ -4,6 +4,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('dotenv').config();
 const MongoDBKey = process.env.MONGODB_KEY;
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -12,7 +13,7 @@ var app = express();
 
 const dev_db_url = `mongodb+srv://admin:${MongoDBKey}@cluster0.lnrds0m.mongodb.net/inventory_application?retryWrites=true&w=majority`;
 
-const mongoDB = process.env.MONGODB_URI || dev_db_url;
+const mongoDB = dev_db_url;
 
 const mongoose = require('mongoose');
 

@@ -6,10 +6,12 @@ const { title } = require('process');
 
 exports.index = asyncHandler(async (req, res, next) => {
   // Get details of books, book instances, authors and genre counts (in parallel)
+  console.log("aqui")
   const [numItems, numCategories] = await Promise.all([
     Item.countDocuments({}).exec(),
     Category.countDocuments({}).exec(),
   ]);
+
 
   res.render('index', {
     title: 'Local Library Home',
