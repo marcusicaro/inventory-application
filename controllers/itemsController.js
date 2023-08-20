@@ -74,19 +74,23 @@ exports.item_create_post = asyncHandler(async (req, res, next) => {
       .isLength({ min: 1 })
       .escape();
 
+
+
   const errors = validationResult(req);
 
-  console.log(req.body.name)
-  console.log(req.body.description)
-  console.log(req.body.category)
-  console.log(req.body.price)
+
+  const { originalname, path } = req.file;
+
 
   const item = new Item({
     name: req.body.name,
     description: req.body.description,
     category: req.body.category,
     price: req.body.price,
-
+    file: {
+      originalName: originalname,
+      path: path
+    }
   });
 
   if (!errors.isEmpty()) {
