@@ -4,6 +4,8 @@ const Schema = mongoose.Schema;
 const CategoriesSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
+  photos: [{  originalName: String,
+    path: String}]
 });
 
 CategoriesSchema.virtual('url').get(function () {

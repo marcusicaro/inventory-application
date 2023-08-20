@@ -2,12 +2,13 @@ extends layout
 
 block content
   h1 #{title}
-  form(method='POST' action='')
+  form(method='POST' action='' enctype="multipart/form-data")
     div.form-group
       label(for='name') Category:
       input#name.form-control(type='text', placeholder='Item category name.' name='name' value=(undefined===category ? '' : category.name))
       label(for='description') Description:
       input#description.form-control(type='text' placeholder='Category description.' name='description' value=(undefined===category ? '' : category.description))
+      input(type="file" name="photos")
     button.btn.btn-primary(type='submit') Submit
 
   if errors
