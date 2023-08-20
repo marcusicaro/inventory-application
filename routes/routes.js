@@ -4,7 +4,17 @@ const router = express.Router();
 const item_controller = require('../controllers/itemsController');
 const category_controller = require('../controllers/categoryController');
 const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const upload = multer({ storage: storage })
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '/tmp/my-uploads')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.fieldname + '-' + uniqueSuffix)
+  }
+})
 
 // items
 router.get('/', item_controller.index);

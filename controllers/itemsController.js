@@ -58,6 +58,8 @@ exports.item_create_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.item_create_post = asyncHandler(async (req, res, next) => {
+  console.log(req.body)
+  console.log(req.file)
   body('name', 'Name must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('category.*').escape(),
     body('price')
