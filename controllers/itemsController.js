@@ -6,12 +6,11 @@ const { title } = require('process');
 
 exports.index = asyncHandler(async (req, res, next) => {
   // Get details of books, book instances, authors and genre counts (in parallel)
-  console.log("aqui")
+  console.log('aqui');
   const [numItems, numCategories] = await Promise.all([
     Item.countDocuments({}).exec(),
     Category.countDocuments({}).exec(),
   ]);
-
 
   res.render('index', {
     title: 'Local Library Home',
@@ -58,8 +57,8 @@ exports.item_create_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.item_create_post = asyncHandler(async (req, res, next) => {
-  console.log(req.body)
-  console.log(req.file)
+  console.log(req.body);
+  console.log(req.file);
   body('name', 'Name must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('category.*').escape(),
     body('price')
@@ -76,13 +75,9 @@ exports.item_create_post = asyncHandler(async (req, res, next) => {
       .isLength({ min: 1 })
       .escape();
 
-
-
   const errors = validationResult(req);
 
-
   const { originalname, path } = req.file;
-
 
   const item = new Item({
     name: req.body.name,
@@ -91,8 +86,8 @@ exports.item_create_post = asyncHandler(async (req, res, next) => {
     price: req.body.price,
     file: {
       originalName: originalname,
-      path: path
-    }
+      path: path,
+    },
   });
 
   if (!errors.isEmpty()) {
