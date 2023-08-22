@@ -3,10 +3,32 @@ const router = express.Router();
 
 const item_controller = require('../controllers/itemsController');
 const category_controller = require('../controllers/categoryController');
-
 const multer = require('multer');
 
-const upload = multer({ dest: 'public/' });
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + '.png');
+  },
+});
+
+var upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype == 'image/png' ||
+      file.mimetype == 'image/jpg' ||
+      file.mimetype == 'image/jpeg'
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+    }
+  },
+});
 
 // items
 router.get('/', item_controller.index);
