@@ -3,6 +3,7 @@ extends layout
 block content
   h1 Title: #{item.name}
 
+  img(src=item.photos[0].path)
   p #[strong Description:] #{item.description}
     a(href=item.category.url) #{item.category.name}
   p #[strong Price:] #{item.price}

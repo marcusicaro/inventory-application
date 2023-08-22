@@ -6,7 +6,6 @@ const { title } = require('process');
 
 exports.index = asyncHandler(async (req, res, next) => {
   // Get details of books, book instances, authors and genre counts (in parallel)
-  console.log('aqui');
   const [numItems, numCategories] = await Promise.all([
     Item.countDocuments({}).exec(),
     Category.countDocuments({}).exec(),
@@ -57,8 +56,6 @@ exports.item_create_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.item_create_post = asyncHandler(async (req, res, next) => {
-  console.log(req.body);
-  console.log(req.file);
   body('name', 'Name must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('category.*').escape(),
     body('price')
@@ -84,7 +81,7 @@ exports.item_create_post = asyncHandler(async (req, res, next) => {
     description: req.body.description,
     category: req.body.category,
     price: req.body.price,
-    file: {
+    photos: {
       originalName: originalname,
       path: path,
     },

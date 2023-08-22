@@ -3,7 +3,9 @@ const router = express.Router();
 
 const item_controller = require('../controllers/itemsController');
 const category_controller = require('../controllers/categoryController');
+
 const multer = require('multer');
+
 const upload = multer({ dest: 'public/' });
 
 // items
