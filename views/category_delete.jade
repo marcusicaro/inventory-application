@@ -1,7 +1,6 @@
 extends layout
 
 block content
-
   h1 Category: #{category.name}
 
   if category_items.length
@@ -19,6 +18,10 @@ block content
     p Do you really want to delete this item?
     form(method='POST' action='')
       div.form-group
+        input#password(type='pasword',name='password', required='true', value="", placeholder="password" )
+        &nbsp;
+        &nbsp;
+        &nbsp;
         input#id.form-control(type='hidden',name='id', required='true', value=category._id )
 
       button.btn.btn-primary(type='submit') Delete

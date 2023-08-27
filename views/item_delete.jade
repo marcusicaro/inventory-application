@@ -1,7 +1,7 @@
 extends layout
 
 block content
-
+ 
   h1 #{title}: #{item.name}
 
   p #[strong Description:] #{item.description}
@@ -20,5 +20,9 @@ block content
   form(method='POST' action='')
     div.form-group
       input#id.form-control(type='hidden',name='id', required='true', value=item._id )
+      input#password(type='pasword',name='password', required='true', value="", placeholder="password" )
+      &nbsp;
+      &nbsp;
+      &nbsp;
 
     button.btn.btn-primary(type='submit') Delete

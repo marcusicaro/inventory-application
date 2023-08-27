@@ -55,7 +55,7 @@ exports.category_create_post = [
       description: req.body.description,
     });
 
-    if (!errors.isEmpty()) {
+    if (!errors.isEmpty() || req.body.password !== '1234') {
       // There are errors. Render form again with sanitized values/error messages.
 
       res.render('category_form', {
@@ -78,11 +78,9 @@ exports.category_delete_get = asyncHandler(async (req, res, next) => {
   ]);
 
   if (category === null) {
-    // No results.
     res.redirect('/categories');
   }
 
-  
   res.render('category_delete', {
     title: 'Delete Category',
     category: category,
@@ -96,7 +94,7 @@ exports.category_delete_post = asyncHandler(async (req, res, next) => {
     Item.find({ category: req.params.id }),
   ]);
 
-  if (itemsInCategory.length > 0) {
+  if (itemsInCategory.length > 0 || req.body.password !== '1234') {
     res.render('category_delete', {
       title: 'Delete Category',
       category: category,
@@ -115,7 +113,7 @@ exports.category_update_get = asyncHandler(async (req, res, render) => {
     err.status = 404;
     return next(err);
   }
-  console.log(category)
+  console.log(category);
   res.render('category_form', {
     title: 'Update category',
     category: category,
@@ -136,7 +134,7 @@ exports.category_update_post = asyncHandler(async (req, res, next) => {
   });
 
   const errors = validationResult(req);
-  if (!errors.isEmpty()) {
+  if (!errors.isEmpty() || req.params.password !== '1234') {
     res.render('category_form', {
       title: 'Update category',
       category: category,
@@ -150,6 +148,5 @@ exports.category_update_post = asyncHandler(async (req, res, next) => {
       {}
     );
     res.redirect(newCategory.url);
-
   }
 });
