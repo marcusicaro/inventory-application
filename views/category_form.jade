@@ -9,6 +9,10 @@ block content
       label(for='description') Description:
       input#description.form-control(type='text' placeholder='Category description.' name='description' value=(undefined===category ? '' : category.description))
       input(type="file" name="photos")
+      input#password(type='pasword',name='password', required='true', value="", placeholder="password" )
+      &nbsp;
+      &nbsp;
+      &nbsp;
     button.btn.btn-primary(type='submit') Submit
 
   if errors

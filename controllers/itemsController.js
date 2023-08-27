@@ -5,7 +5,6 @@ const asyncHandler = require('express-async-handler');
 const { title } = require('process');
 
 exports.index = asyncHandler(async (req, res, next) => {
-  // Get details of books, book instances, authors and genre counts (in parallel)
   const [numItems, numCategories] = await Promise.all([
     Item.countDocuments({}).exec(),
     Category.countDocuments({}).exec(),
@@ -87,7 +86,7 @@ exports.item_create_post = asyncHandler(async (req, res, next) => {
     },
   });
 
-  if (!errors.isEmpty()) {
+  if (!errors.isEmpty() || req.body.password !== '1234') {
     const allCategories = await Category.find({}).sort({ name: 1 }).exec();
 
     for (const category of allCategories) {
@@ -95,12 +94,9 @@ exports.item_create_post = asyncHandler(async (req, res, next) => {
         category.checked = 'true';
       }
     }
-
-    res.render('category_form', {
+    res.render('item_form', {
       title: 'Create item',
       categories: allCategories,
-      item: item,
-      errors: errors.array(),
     });
   } else {
     await item.save();
@@ -127,8 +123,11 @@ exports.item_delete_get = asyncHandler(async (req, res, next) => {
 exports.item_delete_post = asyncHandler(async (req, res, next) => {
   const item = await Item.findById(req.params.id).populate('category').exec();
 
-  if (item === null) {
-    res.redirect('/items');
+  if (item === null || req.body.password !== '1234') {
+    res.render('item_delete', {
+      title: 'Delete Item',
+      item: item,
+    });
   } else {
     await Item.findByIdAndDelete(req.body.id);
     res.redirect('/items');
@@ -187,7 +186,7 @@ exports.item_update_post = asyncHandler(async (req, res, next) => {
     _id: req.params.id,
   });
 
-  if (!errors.isEmpty()) {
+  if (!errors.isEmpty() || req.body.password !== '1234') {
     const allCategories = await Category.find().exec();
 
     for (const category of allCategories) {
